@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - GDG AITR</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <img src="../static/images/logo.png.png" alt="GDG AITR Logo" class="logo">
+            <h1>Admin Panel - Registrations</h1>
+            <div class="admin-nav">
+                <a href="/" class="nav-link">← Back to Registration</a>
+                <button id="refreshBtn" class="btn">Refresh Data</button>
+                <button id="downloadCsv" class="btn btn-primary">Download CSV</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Registrations</h3>
+                    <p id="totalCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>By Branch</h3>
+                    <p id="branchStats">Loading...</p>
+                </div>
+                <div class="stat-card">
+                    <h3>By Year</h3>
+                    <p id="yearStats">Loading...</p>
+                </div>
+            </div>
+
+            <div class="registrations-table">
+                <h2>All Registrations</h2>
+                <div class="table-container">
+                    <table id="registrationsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Year</th>
+                                <th>Branch</th>
+                                <th>Registration Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="6" class="loading">Loading registrations...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>
