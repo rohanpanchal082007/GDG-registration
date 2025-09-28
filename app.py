@@ -1,13 +1,27 @@
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, session, redirect, url_for, flash
 import json
 import csv
 import os
 from datetime import datetime
 from io import StringIO, BytesIO
+from functools import wraps
 
 app = Flask(__name__)
+app.secret_key = 'gdg-aitr-secret-key-2025'  # Change this in production
 
 DATA_FILE = 'registrations.json'
+
+# Admin credentials
+ADMIN_EMAIL = 'Admin@gdg'
+ADMIN_PASSWORD = 'Gdg@2025'
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 def load_registrations():
     if os.path.exists(DATA_FILE):
@@ -40,7 +54,28 @@ def save_registration(registration):
 def home():
     return render_template('index.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        if email == ADMIN_EMAIL and password == ADMIN_PASSWORD:
+            session['logged_in'] = True
+            session['admin_email'] = email
+            return redirect(url_for('admin'))
+        else:
+            flash('Invalid credentials. Please try again.')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
+
 @app.route('/admin')
+@login_required
 def admin():
     return render_template('admin.html')
 
@@ -74,6 +109,7 @@ def register():
         return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/registrations', methods=['GET'])
+@login_required
 def get_registrations():
     try:
         registrations = load_registrations()
@@ -82,6 +118,7 @@ def get_registrations():
         return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/download-csv')
+@login_required
 def download_csv():
     try:
         registrations = load_registrations()
@@ -126,6 +163,7 @@ if __name__ == '__main__':
     
     print("Starting GDG AITR Registration System...")
     print("Access the registration form at: http://localhost:5000")
-    print("Access the admin panel at: http://localhost:5000/admin")
+    print("Access the admin login at: http://localhost:5000/login")
+    print("Admin Credentials - Email: Admin@gdg, Password: Gdg@2025")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

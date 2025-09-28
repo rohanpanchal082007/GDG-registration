@@ -80,6 +80,20 @@ h1 {
     transform: translateY(-2px);
 }
 
+.btn-secondary {
+    background: #ea4335;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background: #d33b2c;
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
