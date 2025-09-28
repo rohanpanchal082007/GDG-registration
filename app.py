@@ -13,7 +13,7 @@ DATA_FILE = 'registrations.json'
 
 # Admin credentials
 ADMIN_EMAIL = 'Admin@gdg'
-ADMIN_PASSWORD = 'Gdg@2025'
+ADMIN_PASSWORD = 'Gdg@1234'
 
 def login_required(f):
     @wraps(f)
